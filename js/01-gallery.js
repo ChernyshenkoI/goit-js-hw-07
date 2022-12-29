@@ -1,39 +1,48 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-const galleryEL= document.querySelector(".gallery")
+const galleryEL = document.querySelector(".gallery")
 
-function createMarkup (arr){
+function createMarkup(arr) {
 
-    const result = arr.map(({preview,original,description})=> {
+  const result = arr.map(({ preview, original, description }) => {
 
-   return `<div class="gallery__item">
-    <a class="gallery__link" href="large-image.jpg">
+    return `<div class="gallery__item">
+    <a class="gallery__link" href="">
       <img
-        class="${original}"
+        class="gallery__image"
         src="${preview}"
-        data-source="large-image.jpg"
+        data-source="${original}"
         alt="${description}"
       />
     </a>
-  </div>/`
+  </div>`
 
-    }).join("")
-  
-    galleryEL.appendChild()
-
-   }
+  }).join("");
 
 
 
+  galleryEL.innerHTML = result;
+};
 
-console.log(galleryItems);
+createMarkup(galleryItems);
 
 
-{
-    preview:
-      'https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825__340.jpg',
-    original:
-      'https://cdn.pixabay.com/photo/2019/05/14/16/43/himilayan-blue-poppy-4202825_1280.jpg',
-    description: 'Hokkaido Flower',
-  },
+galleryEL.addEventListener("click", onImageClick);
+
+function onImageClick(event) {
+  event.preventDefault()
+
+  if (event.target.nodeName !== 'IMG') {
+    return
+  }
+
+
+  const { source } = event.target.dataset;
+
+  const instance = basicLightbox.create(`
+<img src="${source}"  alt="flowers"/>
+`)
+  instance.show()
+}
+
